@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/04 17:07:10 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/04 18:28:26 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	(void)envp;
+	ms_envinit(envp);
 	signal(SIGINT, handle_ctrl_c);
 	signal(SIGQUIT, handle_ctrl_bs);
 	while (1)
