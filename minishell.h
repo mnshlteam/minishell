@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 16:40:56 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/05 22:18:05 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,18 @@ void	ms_exit(void);
 
 void	ms_init(char **envp);
 int		ms_envmatch(t_env *env, char *str);
-char	*ms_findenv(char *str);
-char	*ms_getenv(char *str);
 void	ms_addenv(char *str);
+void	ms_delenv(char *str);
 void	ms_envfree(void);
 
-void	ms_export(char *str);
-void	ms_unset(char *str);
+void	ms_export(char **str);
+void	ms_unset(char **str);
 void	ms_env(void);
+char	*ms_getenv(char *str);
+char	*ms_findenv(char *str);
 
 void	ms_echo(char **strs);
+
+void	ms_execute(char **strs);
 
 #endif

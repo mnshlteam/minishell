@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tmp_parse.c                                        :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/05 12:38:40 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 22:12:03 by hyejo            ###   ########.fr       */
+/*   Created: 2022/09/05 22:01:43 by hyejo             #+#    #+#             */
+/*   Updated: 2022/09/05 22:53:53 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// 임시 파싱 함수
-
 #include "minishell.h"
 
-void	tmp_parse(char *line)
+void	ms_execute(char **strs)
 {
-	char	**cmds;
-
-	while (*line == ' ' || *line == '\t' || *line == '\r'
-		|| *line == '\v' || *line == '\f')
-		line++;
-	if (!*line)
-		return ;
-	cmds = ft_split(line, ' ');
-	ms_execute(cmds);
+	if (!ft_strncmp(*strs, "echo", 5))
+		ms_echo(strs + 1);
+	else if (!ft_strncmp(*strs, "export", 7))
+		ms_export(strs + 1);
+	else if (!ft_strncmp(*strs, "unset", 6))
+		ms_unset(strs + 1);
+	else if (!ft_strncmp(*strs, "env", 4))
+		ms_env();
+	else if (!ft_strncmp(*strs, "pwd", 4))
+		printf("%s\n", g_config.pwd);
+	else if (!ft_strncmp(*strs, "exit", 5))
+		ms_exit();
 }

@@ -6,42 +6,27 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:26:24 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 18:30:04 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/05 22:17:49 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_export(char *str)
+void	ms_export(char **strs)
 {
-	ms_addenv(ft_strdup(str));
+	while (*strs)
+	{
+		ms_addenv(ft_strdup(*strs));
+		strs++;
+	}
 }
 
-void	ms_unset(char *str)
+void	ms_unset(char **strs)
 {
-	t_env	*tmp;
-	t_env	*prev;
-	t_env	*next;
-
-	tmp = g_config.env;
-	prev = NULL;
-	while (tmp)
+	while (*strs)
 	{
-		if (ms_envmatch(tmp, str))
-		{
-			next = tmp->next;
-			free(tmp->env);
-			free(tmp);
-			if (prev)
-				prev->next = next;
-			else
-				g_config.env = next;
-		}
-		else
-		{
-			prev = tmp;
-			tmp = tmp->next;
-		}
+		ms_delenv(*strs);
+		strs++;
 	}
 }
 

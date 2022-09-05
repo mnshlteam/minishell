@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 17:16:00 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 15:52:45 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/05 22:20:47 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,35 @@ void	ms_addenv(char *str)
 	env->env = str;
 	env->next = 0;
 	tmp->next = env;
+}
+
+void	ms_delenv(char *str)
+{
+	t_env	*tmp;
+	t_env	*prev;
+	t_env	*next;
+
+	tmp = g_config.env;
+	prev = NULL;
+	while (tmp)
+	{
+		if (ms_envmatch(tmp, str))
+		{
+			next = tmp->next;
+			free(tmp->env);
+			free(tmp);
+			if (prev)
+				prev->next = next;
+			else
+				g_config.env = next;
+			return ;
+		}
+		else
+		{
+			prev = tmp;
+			tmp = tmp->next;
+		}
+	}
 }
 
 void	ms_envfree(void)
