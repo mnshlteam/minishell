@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 12:26:24 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 16:40:42 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/05 18:30:04 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,5 @@ char	*ms_getenv(char *str)
 	env = ms_findenv(str);
 	if (env)
 		return (ft_strchr(env, '=') + 1);
-	return (NULL);
+	return ("");
 }
