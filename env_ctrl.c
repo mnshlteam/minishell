@@ -6,27 +6,28 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 17:16:00 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/04 19:21:34 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/05 15:52:45 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_envinit(char **envp)
+void	ms_init(char **envp)
 {
 	t_env	*env;
 	t_env	*tmp;
 
+	g_config.pwd = getcwd(g_config.pwd, 0);
 	while (*envp)
 	{
 		env = malloc(sizeof(t_env));
 		env->env = ft_strdup(*envp);
 		env->next = NULL;
-		if (!g_config->env)
-			g_config->env = env;
+		if (!g_config.env)
+			g_config.env = env;
 		else
 		{
-			tmp = g_config->env;
+			tmp = g_config.env;
 			while (tmp->next)
 				tmp = tmp->next;
 			tmp->next = env;
@@ -56,7 +57,7 @@ void	ms_addenv(char *str)
 	t_env	*tmp;
 	t_env	*env;
 
-	tmp = g_config->env;
+	tmp = g_config.env;
 	while (1)
 	{
 		if (ms_envmatch(tmp, str))
@@ -75,4 +76,21 @@ void	ms_addenv(char *str)
 	env->env = str;
 	env->next = 0;
 	tmp->next = env;
+}
+
+void	ms_envfree(void)
+{
+	t_env	*tmp;
+	t_env	*next;
+
+	tmp = g_config.env;
+	g_config.env = NULL;
+	while (tmp)
+	{
+		next = tmp->next;
+		free(tmp->env);
+		free(tmp);
+		tmp = next;
+	}
+	free(g_config.pwd);
 }
