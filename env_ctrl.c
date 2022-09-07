@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/04 17:16:00 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 22:20:47 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/07 15:25:38 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	ms_init(char **envp)
 	t_env	*env;
 	t_env	*tmp;
 
-	g_config.pwd = getcwd(g_config.pwd, 0);
 	while (*envp)
 	{
 		env = malloc(sizeof(t_env));
@@ -121,5 +120,4 @@ void	ms_envfree(void)
 		free(tmp);
 		tmp = next;
 	}
-	free(g_config.pwd);
 }

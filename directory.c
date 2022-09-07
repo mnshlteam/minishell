@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/05 16:13:08 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/07 16:41:50 by hyejo            ###   ########.fr       */
+/*   Created: 2022/09/07 15:18:30 by hyejo             #+#    #+#             */
+/*   Updated: 2022/09/07 17:03:27 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// parse 함수에서 echo를 만나면 ms_echo 함수를 호출한다.
-// parse 함수가 입력받은 문자열을 ft_split() 함수를 이용해
-// 공백을 기준으로 나누고 나눈 문자열을 ms_echo가 입력으로 받아 출력한다.
-
 #include "minishell.h"
 
-void	ms_echo(char **strs)
+void	ms_cd(char *str)
 {
-	while (*strs)
+	if (chdir(str))
+		printf("Error to change directory.\n");
+	else
 	{
-		printf("%s", *strs);
-		if (*(strs + 1))
-			printf(" ");
-		strs++;
+		str = getcwd(NULL, 0);
+		ms_addenv(ft_strjoin("PWD=", str));
+		free(str);
 	}
-	printf("\n");
+}
+
+void	ms_pwd(void)
+{
+	char	*str;
+
+	str = getcwd(NULL, 0);
+	printf("%s\n", str);
+	free(str);
 }

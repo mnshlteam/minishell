@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 22:18:05 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/07 19:56:26 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ typedef struct s_env
 typedef struct s_config
 {
 	t_env	*env;
-	char	*pwd;
 }	t_config;
 
 t_config	g_config;
@@ -58,5 +57,12 @@ char	*ms_findenv(char *str);
 void	ms_echo(char **strs);
 
 void	ms_execute(char **strs);
+
+void	ms_cd(char *str);
+void	ms_pwd(void);
+
+int		ms_isspace(char ch);
+char	*ms_join_words(char **words);
+void	free_strlist(char **strlist);
 
 #endif
