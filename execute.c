@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 22:01:43 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/07 19:42:52 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/11 22:36:08 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,6 @@ void	ms_execute(char **strs)
 		ms_pwd();
 	else if (!ft_strncmp(*strs, "exit", 5))
 		ms_exit();
+	else
+		ms_findpath(*(strs), strs);
 }

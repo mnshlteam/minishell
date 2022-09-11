@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/07 19:56:26 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/11 18:40:55 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <dirent.h>
 
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -55,6 +56,8 @@ char	*ms_getenv(char *str);
 char	*ms_findenv(char *str);
 
 void	ms_echo(char **strs);
+
+void	ms_findpath(char *filename, char **str);
 
 void	ms_execute(char **strs);
 
