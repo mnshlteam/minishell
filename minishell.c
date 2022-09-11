@@ -6,13 +6,11 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/05 15:51:28 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/10 01:32:47 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	tmp_parse(char *line);
 
 void	handle_ctrl_c(pid_t pid)
 {
@@ -33,11 +31,13 @@ void	handle_ctrl_bs(pid_t pid)
 	write(1, "  \b\b", 4);
 }
 
-void	ms_exit(void)
+void	ms_exit(char *str, int status)
 {
 	ms_envfree();
+	if (str)
+		printf("%s\n", str);
 	printf("exit\n");
-	exit(0);
+	exit(status);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -56,8 +56,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*line)
 			add_history(line);
-		tmp_parse(line);
+		ms_parse(line);
 		free(line);
 	}
-	ms_exit();
+	ms_exit(NULL, 0);
 }

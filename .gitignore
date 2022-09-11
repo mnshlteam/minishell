@@ -1,3 +1,6 @@
 *.o
 minishell
-libft.a
+*.a
+*_old.c
+*.txt
+*.out*
