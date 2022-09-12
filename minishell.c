@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/10 01:32:47 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/12 18:21:09 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*line)
 			add_history(line);
-		ms_parse(line);
+		ms_free_cmd(ms_parse(line));
 		free(line);
 	}
 	ms_exit(NULL, 0);

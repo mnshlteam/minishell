@@ -6,13 +6,34 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 01:35:03 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 01:36:16 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/12 18:23:56 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*ms_new_cmd(void)
+void	ms_free_cmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	while (cmd)
+	{
+		if (cmd->cmd)
+		{
+			free_strlist(cmd->cmd);
+			free(cmd->cmd);
+		}
+		if (cmd->infile)
+			free(cmd->infile);
+		if (cmd->outfile)
+			free(cmd->outfile);
+		tmp = cmd->next;
+		free(cmd);
+		cmd = tmp;
+	}
+}
+
+t_cmd	*ms_new_cmd(t_cmd *prev)
 {
 	t_cmd	*cmd;
 
@@ -22,8 +43,8 @@ t_cmd	*ms_new_cmd(void)
 	cmd->cmd = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;
-	cmd->fd[0] = 0;
-	cmd->fd[1] = 0;
+	cmd->next = NULL;
+	cmd->prev = prev;
 	return (cmd);
 }
 

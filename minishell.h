@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 01:36:14 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/12 18:20:18 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@ typedef struct s_env
 
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			*param;
+	char			*str;
+	char			**cmd;
 	char			*infile;
 	char			*outfile;
-	int				fd[2];
+	int				index;
 	struct s_cmd	*next;
+	struct s_cmd	*prev;
 }	t_cmd;
 
 typedef struct s_config
 {
 	t_env	*env;
 	int		exit_status;
+	int		fd[2][2];
 }	t_config;
 
 t_config	g_config;
@@ -78,9 +80,14 @@ char	*str_to_env(char *str);
 char	*ms_join_words(char **words);
 void	free_strlist(char **strlist);
 
-void	ms_parse(char *line);
+t_cmd	*ms_parse(char *line);
 
-t_cmd	*ms_new_cmd(void);
+void	ms_free_cmd(t_cmd *cmd);
+t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
+
+char	**ms_split_str(char *str);
+
+char	*ms_parse_quotes(char *str);
 
 #endif

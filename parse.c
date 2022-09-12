@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:45:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 01:40:06 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/12 18:24:05 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,25 @@ static char	*ms_replace_dollar(char **cmd)
 		i++;
 	tmp = ft_substr(*cmd, 0, i);
 	*cmd += i;
-	str = ft_strdup(ms_getenv(tmp));
+	if (!ft_strlen(tmp))
+		str = ft_strdup("$");
+	else
+		str = ft_strdup(ms_getenv(tmp));
 	free(tmp);
 	return (str);
 }
 
-static char	*ms_parse_dollar(char *cmd, int mem)
+static char	*ms_parse_dollar(char *cmd, int quote)
 {
 	char	*str;
-	int		quote;
 	int		i;
 
 	i = 0;
-	quote = 0;
 	if (!*cmd)
 		return (NULL);
 	if (*cmd == '$')
 		return (ms_strjoin_free(ms_replace_dollar(&cmd), \
-			ms_parse_dollar(cmd, 1)));
+			ms_parse_dollar(cmd, quote)));
 	while (cmd[i])
 	{
 		quote = ms_quote_status(cmd[i], quote);
@@ -65,13 +66,11 @@ static char	*ms_parse_dollar(char *cmd, int mem)
 		{
 			str = ft_substr(cmd, 0, i);
 			cmd += i;
-			return (ms_strjoin_free(str, ms_parse_dollar(cmd, 1)));
+			return (ms_strjoin_free(str, ms_parse_dollar(cmd, quote)));
 		}
 		i++;
 	}
-	if (mem)
-		return (ft_strdup(cmd));
-	return (cmd);
+	return (ft_strdup(cmd));
 }
 
 static void	ms_divide_line(t_cmd *cmd, char *line)
@@ -81,15 +80,16 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 
 	quote = 0;
 	i = 0;
-	while (*line == ' ' || *line == '\t' || *line == '\r'
-		|| *line == '\v' || *line == '\f')
+	while (ms_isspace(*line))
 		line++;
+	if (*line == '|')
+		ms_exit("minishell: syntax error near unexpected token |", 258);
 	while (line[i])
 	{
 		quote = ms_quote_status(line[i], quote);
 		if (line[i] == '|' && !quote)
 		{
-			cmd->next = ms_new_cmd();
+			cmd->next = ms_new_cmd(cmd);
 			ms_divide_line(cmd->next, line + i + 1);
 			break ;
 		}
@@ -97,8 +97,8 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 		if (cmd->next)
 			cmd = cmd->next;
 	}
-	cmd->cmd = ft_substr(line, 0, i);
-	if (!cmd->cmd)
+	cmd->str = ft_substr(line, 0, i);
+	if (!cmd->str)
 		ms_exit("minishell: malloc error", 1);
 }
 
@@ -106,21 +106,32 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 // {
 // 	while (cmd)
 // 	{
-// 		printf("%s %s\n", cmd->cmd, cmd->param);
+// 		printf("%s\n", cmd->str);
 // 		cmd = cmd->next;
 // 	}
 // }
 
-void	ms_parse(char *line)
+t_cmd	*ms_parse(char *line)
 {
 	t_cmd	*cmd;
+	t_cmd	*tmp;
+	char	*str;
 
 	ms_input_error(line);
-	cmd = ms_new_cmd();
+	cmd = ms_new_cmd(NULL);
+	if (!cmd)
+		ms_exit("minishell: malloc error", 1);
+	tmp = cmd;
 	ms_divide_line(cmd, line);
 	while (cmd)
 	{
-		cmd->cmd = ms_parse_dollar(cmd->cmd, 0);
+		str = ms_parse_dollar(cmd->str, 0);
+		free(cmd->str);
+		cmd->str = str;
+		cmd->cmd = ms_split_str(cmd->str);
+		free(cmd->str);
+		cmd->str = NULL;
 		cmd = cmd->next;
 	}
+	return (tmp);
 }
