@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:45:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 18:24:05 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/14 21:28:18 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,13 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 
 // void	asdf(t_cmd *cmd)
 // {
+// 	char	*str;
+
 // 	while (cmd)
 // 	{
-// 		printf("%s\n", cmd->str);
+// 		str = *cmd->cmd;
+// 		while (*str)
+// 			printf("%s\n", str++);
 // 		cmd = cmd->next;
 // 	}
 // }
@@ -126,6 +130,9 @@ t_cmd	*ms_parse(char *line)
 	while (cmd)
 	{
 		str = ms_parse_dollar(cmd->str, 0);
+		free(cmd->str);
+		cmd->str = str;
+		str = ms_parse_redirect(cmd, cmd->str, 0);
 		free(cmd->str);
 		cmd->str = str;
 		cmd->cmd = ms_split_str(cmd->str);

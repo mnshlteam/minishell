@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 18:20:18 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/14 19:33:17 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,19 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_file
+{
+	char			*filename;
+	int				mode;
+	struct s_file	*next;
+}	t_file;
+
 typedef struct s_cmd
 {
 	char			*str;
 	char			**cmd;
-	char			*infile;
-	char			*outfile;
+	t_file			*infile;
+	t_file			*outfile;
 	int				index;
 	struct s_cmd	*next;
 	struct s_cmd	*prev;
@@ -82,6 +89,7 @@ void	free_strlist(char **strlist);
 
 t_cmd	*ms_parse(char *line);
 
+void	ms_add_last_file(t_cmd *cmd, char *fillename, int mode, int io);
 void	ms_free_cmd(t_cmd *cmd);
 t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
@@ -89,5 +97,7 @@ int		ms_quote_status(char ch, int quote);
 char	**ms_split_str(char *str);
 
 char	*ms_parse_quotes(char *str);
+
+char	*ms_parse_redirect(t_cmd *cmd, char *line, int quote);
 
 #endif
