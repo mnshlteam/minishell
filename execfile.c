@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 17:40:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/11 21:52:08 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/16 02:53:19 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	ms_execfile(char *filedir, char *filename, char **str)
 	DIR				*dir;
 	struct dirent	*ent;
 
-	(void)filename;
-	(void)str;
 	dir = opendir(filedir);
 	if (!dir)
 		return ;
@@ -46,6 +44,29 @@ static void	ms_execfile(char *filedir, char *filename, char **str)
 	closedir(dir);
 }
 
+static void	ms_execfile_pwd(char *filename, char **str)
+{
+	DIR				*dir;
+	struct dirent	*ent;
+	char			*pwd;
+
+	pwd = getcwd(NULL, 0);
+	dir = opendir(pwd);
+	if (!dir)
+		return ;
+	while (1)
+	{
+		ent = readdir(dir);
+		if (!ent)
+			break ;
+		if (ft_strncmp(ent->d_name, filename, ft_strlen(filename)))
+			execve(ms_filename_join(pwd, filename), str, NULL);
+		printf("%s\n", ent->d_name);
+	}
+	free(pwd);
+	closedir(dir);
+}
+
 void	ms_findpath(char *filename, char **str)
 {
 	char	*path;
@@ -53,7 +74,10 @@ void	ms_findpath(char *filename, char **str)
 	char	*iter_end;
 	char	buf[1024];
 
+	buf[0] = '\0';
 	path = ms_getenv("PATH");
+	if (!ft_strlen(path))
+		ms_execfile_pwd(filename, str);
 	iter = path;
 	while (1)
 	{
@@ -68,4 +92,5 @@ void	ms_findpath(char *filename, char **str)
 		iter = iter_end + 1;
 		ms_execfile(buf, filename, str);
 	}
+	// print_error -> minishell:(filename): command not found
 }
