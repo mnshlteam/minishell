@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 05:21:00 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/16 06:18:09 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/16 07:17:14 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,13 @@ void	exec_file(char *filename, char **argv)
 {
 	struct stat	buf;
 	
-	if (execve(filename, argv, NULL));
+	if (stat(filename, &buf))
+		// ms_exit("minishell: (filename): No such file or directory", 127);
+	else if (S_ISDIR(buf.st_mode))
+		// ms_exit("minishell: (filename): is a directory", 126);
+	else
+	{
+		if (execve(filename, argv, NULL))
+			// ms_exit("custom error message", EXIT_FAILURE);
+	}
 }
