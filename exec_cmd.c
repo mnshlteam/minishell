@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execfile.c                                         :+:      :+:    :+:   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 17:40:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/16 02:53:19 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/16 06:34:29 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ms_filename_join(char *filedir, char *filename)
+static char	*ms_cmd_join(char *cmd_dir, char *cmd)
 {
 	char	*temp_str;
 	char	*result_str;
 
-	temp_str = ft_strjoin(filedir, "/");
-	result_str = ft_strjoin(temp_str, filename);
+	temp_str = ft_strjoin(cmd_dir, "/");
+	result_str = ft_strjoin(temp_str, cmd);
 	if (!temp_str)
 		free(temp_str);
 	return (result_str);
 }
 
-static void	ms_execfile(char *filedir, char *filename, char **str)
+static void	ms_exec_cmd(char *cmd_dir, char *cmd, char **str)
 {
 	DIR				*dir;
 	struct dirent	*ent;
 
-	dir = opendir(filedir);
+	dir = opendir(cmd_dir);
 	if (!dir)
 		return ;
 	while (1)
@@ -37,14 +37,14 @@ static void	ms_execfile(char *filedir, char *filename, char **str)
 		ent = readdir(dir);
 		if (!ent)
 			break ;
-		if (ft_strncmp(ent->d_name, filename, ft_strlen(filename)))
-			execve(ms_filename_join(filedir, filename), str, NULL);
+		if (ft_strncmp(ent->d_name, cmd, ft_strlen(cmd)))
+			execve(ms_cmd_join(cmd_dir, cmd), str, NULL);
 		printf("%s\n", ent->d_name);
 	}
 	closedir(dir);
 }
 
-static void	ms_execfile_pwd(char *filename, char **str)
+static void	ms_exec_cmd_pwd(char *cmd, char **str)
 {
 	DIR				*dir;
 	struct dirent	*ent;
@@ -59,15 +59,15 @@ static void	ms_execfile_pwd(char *filename, char **str)
 		ent = readdir(dir);
 		if (!ent)
 			break ;
-		if (ft_strncmp(ent->d_name, filename, ft_strlen(filename)))
-			execve(ms_filename_join(pwd, filename), str, NULL);
+		if (ft_strncmp(ent->d_name, cmd, ft_strlen(cmd)))
+			execve(ms_cmd_join(pwd, cmd), str, NULL);
 		printf("%s\n", ent->d_name);
 	}
 	free(pwd);
 	closedir(dir);
 }
 
-void	ms_findpath(char *filename, char **str)
+void	ms_findpath(char *cmd, char **str)
 {
 	char	*path;
 	char	*iter;
@@ -77,7 +77,7 @@ void	ms_findpath(char *filename, char **str)
 	buf[0] = '\0';
 	path = ms_getenv("PATH");
 	if (!ft_strlen(path))
-		ms_execfile_pwd(filename, str);
+		ms_exec_cmd_pwd(cmd, str);
 	iter = path;
 	while (1)
 	{
@@ -90,7 +90,8 @@ void	ms_findpath(char *filename, char **str)
 			break ;
 		printf("%s\n", buf);
 		iter = iter_end + 1;
-		ms_execfile(buf, filename, str);
+		ms_exec_cmd(buf, cmd, str);
 	}
-	// print_error -> minishell:(filename): command not found
+	// print_error -> minishell:(cmd): command not found
+	// exit(127);
 }
