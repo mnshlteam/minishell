@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/14 19:33:17 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/16 19:44:08 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_cmd
 
 typedef struct s_config
 {
+	char	**envp;
 	t_env	*env;
 	int		exit_status;
 	int		fd[2][2];
@@ -95,6 +96,8 @@ t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
 
 char	**ms_split_str(char *str);
+
+char	*ms_parse_dollar(char *cmd, int quote);
 
 char	*ms_parse_quotes(char *str);
 

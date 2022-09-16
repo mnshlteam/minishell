@@ -6,13 +6,13 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:10:56 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/14 19:39:01 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/16 21:00:25 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		ms_redirect_error(char *line)
+static void	ms_redirect_error(char *line)
 {
 	char	ch;
 	char	cmp;
@@ -33,7 +33,7 @@ void		ms_redirect_error(char *line)
 			break ;
 		line++;
 	}
-	if (!line || *line == '>' || *line == '<')
+	if (!line || *line == '>' || *line == '<' || *line == '|' || i > 1)
 		ms_exit("minishell: syntax error near unexpected token", 258);
 }
 
@@ -48,7 +48,10 @@ static void	ms_handle_redirect(t_cmd *cmd, char **line)
 	i = -1;
 	ch = **line;
 	while (**line == ch)
+	{
+		i++;
 		(*line)++;
+	}
 	while (**line == ' ')
 		(*line)++;
 	len = 0;
@@ -65,7 +68,7 @@ char	*ms_parse_redirect(t_cmd *cmd, char *line, int quote)
 	char	*str;
 	int		i;
 
-	if (!*line)
+	if (!line || !*line)
 		return (NULL);
 	if (*line == '>' || *line == '<')
 	{

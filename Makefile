@@ -6,7 +6,7 @@
 #    By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/25 21:11:25 by hyejo             #+#    #+#              #
-#    Updated: 2022/09/14 19:33:55 by hyejo            ###   ########.fr        #
+#    Updated: 2022/09/16 19:44:18 by hyejo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME		=	minishell
 CC			=	gcc -Wall -Wextra -Werror
 LIB_DIR		=	libft
 LIB			=	libft/libft.a
-SRCS		=	minishell.c directory.c echo.c env_ctrl.c env.c execute.c parse.c parse_quotes.c parse_redirect.c split_str.c utils.c utils2.c
+SRCS		=	minishell.c directory.c echo.c env_ctrl.c env.c execute.c parse.c parse_dollar.c parse_quotes.c parse_redirect.c split_str.c utils.c utils2.c
 OBJS		=	$(SRCS:.c=.o)
 LIBFT		=	-Llibft -lft
 # RL			=	-lreadline -L/opt/homebrew/opt/readline/lib
