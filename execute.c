@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 22:01:43 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/07 19:42:52 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/12 13:36:31 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	ms_execute(char **strs)
 	else if (!ft_strncmp(*strs, "pwd", 4))
 		ms_pwd();
 	else if (!ft_strncmp(*strs, "exit", 5))
-		ms_exit();
+		ms_exit(NULL, 0);
 }

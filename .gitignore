@@ -1,0 +1,8 @@
+*.o
+minishell
+*.a
+*_old.c
+*.txt
+*.out*
+main.c
+.vscode*
