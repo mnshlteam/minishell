@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/16 19:44:08 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/19 18:31:51 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,16 +91,17 @@ void	free_strlist(char **strlist);
 t_cmd	*ms_parse(char *line);
 
 void	ms_add_last_file(t_cmd *cmd, char *fillename, int mode, int io);
-void	ms_free_cmd(t_cmd *cmd);
 t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
 
-char	**ms_split_str(char *str);
+void	ms_free_cmd(t_cmd *cmd);
 
-char	*ms_parse_dollar(char *cmd, int quote);
+void	ms_split(t_cmd *cmd);
+
+void	ms_parse_dollar(t_cmd *cmd);
 
 char	*ms_parse_quotes(char *str);
 
-char	*ms_parse_redirect(t_cmd *cmd, char *line, int quote);
+void	ms_parse_redirect(t_cmd *cmd);
 
 #endif

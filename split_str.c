@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:53:59 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 18:55:58 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/19 18:29:17 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*ms_put_cmd(char **line)
 	return (cmd);
 }
 
-char	**ms_split_str(char *line)
+static char	**ms_split_str(char *line)
 {
 	char	**cmds;
 	char	**tmp;
@@ -78,4 +78,11 @@ char	**ms_split_str(char *line)
 	}
 	*tmp = NULL;
 	return (cmds);
+}
+
+void	ms_split(t_cmd *cmd)
+{
+	cmd->cmd = ms_split_str(cmd->str);
+	free(cmd->str);
+	cmd->str = NULL;
 }

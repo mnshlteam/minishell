@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 01:35:03 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/14 19:28:53 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/19 17:45:58 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,27 +52,6 @@ void	ms_add_last_file(t_cmd *cmd, char *filename, int mode, int io)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = ms_new_file(filename, mode);
-}
-
-void	ms_free_cmd(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	while (cmd)
-	{
-		if (cmd->cmd)
-		{
-			free_strlist(cmd->cmd);
-			free(cmd->cmd);
-		}
-		if (cmd->infile)
-			free(cmd->infile);
-		if (cmd->outfile)
-			free(cmd->outfile);
-		tmp = cmd->next;
-		free(cmd);
-		cmd = tmp;
-	}
 }
 
 t_cmd	*ms_new_cmd(t_cmd *prev)

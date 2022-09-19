@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:10:56 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/16 21:00:25 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/19 18:27:08 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	ms_handle_redirect(t_cmd *cmd, char **line)
 	(*line) += len;
 }
 
-char	*ms_parse_redirect(t_cmd *cmd, char *line, int quote)
+static char	*ms_parse_red_str(t_cmd *cmd, char *line, int quote)
 {
 	char	*str;
 	int		i;
@@ -73,7 +73,7 @@ char	*ms_parse_redirect(t_cmd *cmd, char *line, int quote)
 	if (*line == '>' || *line == '<')
 	{
 		ms_handle_redirect(cmd, &line);
-		return (ms_parse_redirect(cmd, line, quote));
+		return (ms_parse_red_str(cmd, line, quote));
 	}
 	i = 0;
 	while (line[i])
@@ -84,9 +84,18 @@ char	*ms_parse_redirect(t_cmd *cmd, char *line, int quote)
 			str = ft_substr(line, 0, i);
 			line += i;
 			ms_handle_redirect(cmd, &line);
-			return (ms_strjoin_free(str, ms_parse_redirect(cmd, line, quote)));
+			return (ms_strjoin_free(str, ms_parse_red_str(cmd, line, quote)));
 		}
 		i++;
 	}
 	return (ft_strdup(line));
+}
+
+void	ms_parse_redirect(t_cmd *cmd)
+{
+	char	*str;
+
+	str = ms_parse_red_str(cmd, cmd->str, 0);
+	free(cmd->str);
+	cmd->str = str;
 }

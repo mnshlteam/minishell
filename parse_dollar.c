@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 19:43:49 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/16 20:10:39 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/19 18:25:24 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static char	*ms_replace_dollar(char **cmd)
 	return (str);
 }
 
-char	*ms_parse_dollar(char *cmd, int quote)
+static char	*ms_parse_dollar_str(char *cmd, int quote)
 {
 	char	*str;
 	int		i;
@@ -65,7 +65,7 @@ char	*ms_parse_dollar(char *cmd, int quote)
 		return (NULL);
 	if (*cmd == '$')
 		return (ms_strjoin_free(ms_replace_dollar(&cmd), \
-			ms_parse_dollar(cmd, quote)));
+			ms_parse_dollar_str(cmd, quote)));
 	while (cmd[i])
 	{
 		quote = ms_quote_status(cmd[i], quote);
@@ -73,9 +73,18 @@ char	*ms_parse_dollar(char *cmd, int quote)
 		{
 			str = ft_substr(cmd, 0, i);
 			cmd += i;
-			return (ms_strjoin_free(str, ms_parse_dollar(cmd, quote)));
+			return (ms_strjoin_free(str, ms_parse_dollar_str(cmd, quote)));
 		}
 		i++;
 	}
 	return (ft_strdup(cmd));
+}
+
+void	ms_parse_dollar(t_cmd *cmd)
+{
+	char	*str;
+
+	str = ms_parse_dollar_str(cmd->str, 0);
+	free(cmd->str);
+	cmd->str = str;
 }
