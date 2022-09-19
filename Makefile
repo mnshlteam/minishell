@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+         #
+#    By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/25 21:11:25 by hyejo             #+#    #+#              #
 #    Updated: 2022/09/19 18:01:55 by hyejo            ###   ########.fr        #
