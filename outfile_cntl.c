@@ -1,0 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   outfile_cntl.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/19 19:34:52 by yolee             #+#    #+#             */
+/*   Updated: 2022/09/20 14:03:41 by yolee            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static void	fd_err_handle(t_file *file)
+{
+	struct stat	buf;
+
+	if (stat(file->filename, &buf))
+		ms_exit(strerror(errno), 1);
+	else
+	{
+		if (S_ISDIR(buf.st_mode))
+			ms_exit("minishell: (filename): Is a directory", 1);
+	}
+}
+
+int	ms_open_outfile(t_file *file)
+{
+	int			fd;
+
+	while (file)
+	{
+		if (file->mode == MODE_WRITE)
+			fd = open(file->filename, O_CREAT | O_WRONLY \
+			| O_TRUNC | O_CLOEXEC, 0644);
+		else if (file->mode == MODE_APPEND)
+			fd = open(file->filename, O_CREAT | O_WRONLY \
+			| O_APPEND | O_CLOEXEC, 0644);
+		if (fd == -1)
+			fd_err_handle(file);
+		if (file->next)
+			close(fd);
+		file = file->next;
+	}
+	return (fd);
+}

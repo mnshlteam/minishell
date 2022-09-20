@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 17:40:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/16 07:16:19 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/20 18:44:12 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	ms_exec_cmd(char *cmd_dir, char *cmd, char **str)
 			break ;
 		if (ft_strncmp(ent->d_name, cmd, ft_strlen(cmd)))
 			execve(ms_cmd_join(cmd_dir, cmd), str, NULL);
-		printf("%s\n", ent->d_name);
 	}
 	closedir(dir);
 }
@@ -61,8 +60,7 @@ static void	ms_exec_cmd_pwd(char *cmd, char **str)
 			break ;
 		if (ft_strncmp(ent->d_name, cmd, ft_strlen(cmd)))
 			if (execve(ms_cmd_join(pwd, cmd), str, NULL))
-				// ms_exit(custom message, EXIT_FAILURE);
-		// printf("%s\n", ent->d_name);
+				ms_exit(strerror(errno), EXIT_FAILURE);
 	}
 	free(pwd);
 	closedir(dir);
@@ -89,10 +87,8 @@ void	ms_findpath(char *cmd, char **str)
 		buf[iter_end - iter] = '\0';
 		if (!buf[0])
 			break ;
-		// printf("%s\n", buf);
 		iter = iter_end + 1;
 		ms_exec_cmd(buf, cmd, str);
 	}
-	// print_error -> minishell:(cmd): command not found
-	// exit(127);
+	ms_exit("minishell: (cmd): command not found", 127);
 }

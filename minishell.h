@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/19 18:31:51 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/20 18:35:45 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@
 # include <readline/history.h>
 
 # include "libft/libft.h"
+
+# define FD_WR 0
+# define FD_RD 1
+# define MODE_READ 0
+# define MODE_HEREDOC 1
+# define MODE_WRITE 0
+# define MODE_APPEND 1
 
 typedef struct s_env
 {
@@ -107,4 +114,10 @@ char	*ms_parse_quotes(char *str);
 
 void	ms_parse_redirect(t_cmd *cmd);
 
+void	ms_exec_file(char *filename, char **argv);
+
+void	ms_execute_proc(t_cmd *cmd);
+
+int		ms_open_infile(t_file *file);
+int		ms_open_outfile(t_file *file);
 #endif
