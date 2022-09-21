@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 15:08:22 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 17:37:42 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 
-	(void)argc;
 	(void)argv;
+	if (argc > 1)
+	{
+		printf("minishell has no arguments\n");
+		return (1);
+	}
 	ms_init(envp);
 	signal(SIGINT, handle_ctrl_c);
 	signal(SIGQUIT, handle_ctrl_bs);

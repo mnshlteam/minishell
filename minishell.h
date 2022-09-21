@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 14:09:32 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 17:10:52 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 # include "libft/libft.h"
 
-# define FD_WR 0
-# define FD_RD 1
+# define FD_RD 0
+# define FD_WR 1
 # define MODE_READ 0
 # define MODE_HEREDOC 1
 # define MODE_WRITE 0
@@ -117,6 +117,9 @@ void	ms_parse_redirect(t_cmd *cmd);
 void	ms_exec_file(char *filename, char **argv);
 
 void	ms_execute_proc(t_cmd *cmd);
+
+int		ms_run_by_parent(char **strs);
+void	ms_run_parent(char **strs);
 
 int		ms_open_infile(t_file *file);
 int		ms_open_outfile(t_file *file);
