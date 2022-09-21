@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   infile_cntl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:34:52 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/21 15:16:20 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 20:56:19 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static int	ms_heredoc(t_file *file)
 		else
 			break ;
 	}
-
 	while (ft_strncmp(str, file->filename, ft_strlen(file->filename) + 1))
 	{
 		str = readline("> ");
@@ -61,7 +60,11 @@ int	ms_open_infile(t_file *file)
 		else if (file->mode == MODE_HEREDOC)
 			fd = ms_heredoc(file);
 		if (fd == -1)
-			ms_exit("minishell: (filename): No such file or directory", 1);
+		{
+			ms_print_error(NULL, file->filename,
+				": No such file or directory", 0);
+			ms_exit(1);
+		}
 		if (file->next)
 			close(fd);
 		file = file->next;

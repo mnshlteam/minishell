@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 17:37:42 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 20:57:05 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,9 @@ void	handle_proc_quit(pid_t pid)
 	exit(EXIT_SUCCESS);
 }
 
-void	ms_exit(char *str, int status)
+void	ms_exit(int status)
 {
 	ms_envfree();
-	if (str)
-		printf("%s\n", str);
 	exit(status);
 }
 
@@ -53,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (argc > 1)
 	{
-		printf("minishell has no arguments\n");
+		write(2, "minishell: minishell has no arguments\n", 38);
 		return (1);
 	}
 	ms_init(envp);
@@ -70,5 +68,5 @@ int	main(int argc, char **argv, char **envp)
 		ms_free_cmd(ms_parse(line));
 		free(line);
 	}
-	ms_exit(NULL, 0);
+	ms_exit(EXIT_SUCCESS);
 }

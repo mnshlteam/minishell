@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:13:08 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/07 16:41:50 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/21 18:13:33 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 
 void	ms_echo(char **strs)
 {
+	int	n;
+
+	if (ft_strncmp(*strs, "-n", 3) == 0)
+	{
+		n = 1;
+		strs++;
+	}
+	else
+		n = 0;
 	while (*strs)
 	{
 		printf("%s", *strs);
@@ -25,5 +34,6 @@ void	ms_echo(char **strs)
 			printf(" ");
 		strs++;
 	}
-	printf("\n");
+	if (n == 0)
+		printf("\n");
 }

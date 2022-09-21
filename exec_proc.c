@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_proc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:27:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/21 17:23:12 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 21:41:02 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static void	connect_pipe(t_cmd *cmd, int *in_fd, int *out_fd)
 		safe_close(&g_config.fd[0][FD_WR]);
 		(*in_fd) = g_config.fd[0][FD_RD];
 	}
-	else // g_comfig.index = 0;
+	else
 	{
 		if (cmd->next)
 		{
@@ -81,6 +81,7 @@ static void	ms_child_proc_act(t_cmd *cmd)
 		dup2(out_fd, STDOUT_FILENO);
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
+	write(1, "asdf", 4);
 	ms_execute(cmd->cmd);
 	exit(EXIT_SUCCESS);
 }
@@ -91,6 +92,8 @@ void	ms_execute_proc(t_cmd *cmd)
 
 	while (cmd)
 	{
+		if (!cmd->cmd)
+			return ;
 		if (cmd->next)
 			pipe(g_config.fd[cmd->index]);
 		if (ms_run_by_parent(cmd->cmd))

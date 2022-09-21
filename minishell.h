@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 17:10:52 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 21:49:56 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <string.h>
 # include <unistd.h>
 # include <dirent.h>
 
@@ -69,7 +70,7 @@ typedef struct s_config
 
 t_config	g_config;
 
-void	ms_exit(char *str, int status);
+void	ms_exit(int status);
 
 void	ms_init(char **envp);
 int		ms_envmatch(t_env *env, char *str);
@@ -82,6 +83,9 @@ void	ms_unset(char **str);
 void	ms_env(void);
 char	*ms_getenv(char *str);
 char	*ms_findenv(char *str);
+
+int		ms_export_error(char *str);
+int		ms_unset_error(char *str);
 
 void	ms_echo(char **strs);
 
@@ -104,6 +108,8 @@ void	ms_add_last_file(t_cmd *cmd, char *fillename, int mode, int io);
 t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
 
+int		ms_empty_string(char *str);
+void	ms_print_error(char *s1, char *s2, char *s3, int s2len);
 void	ms_free_cmd(t_cmd *cmd);
 
 void	ms_split(t_cmd *cmd);
@@ -112,7 +118,7 @@ void	ms_parse_dollar(t_cmd *cmd);
 
 char	*ms_parse_quotes(char *str);
 
-void	ms_parse_redirect(t_cmd *cmd);
+int		ms_parse_redirect(t_cmd *cmd);
 
 void	ms_exec_file(char *filename, char **argv);
 

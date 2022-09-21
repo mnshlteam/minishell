@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile_cntl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:34:52 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/20 14:03:41 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 20:58:02 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,17 @@ static void	fd_err_handle(t_file *file)
 	struct stat	buf;
 
 	if (stat(file->filename, &buf))
-		ms_exit(strerror(errno), 1);
+	{
+		ms_print_error(NULL, NULL, strerror(errno), 0);
+		ms_exit(EXIT_FAILURE);
+	}
 	else
 	{
 		if (S_ISDIR(buf.st_mode))
-			ms_exit("minishell: (filename): Is a directory", 1);
+		{
+			ms_print_error(NULL, file->filename, ": is a directory", 0);
+			ms_exit(EXIT_FAILURE);
+		}
 	}
 }
 

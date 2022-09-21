@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:53:59 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/19 18:29:17 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/21 21:49:41 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static int	ms_cmdlen(char *line)
 
 	quote = 0;
 	len = 0;
+	if (!line)
+		return (0);
 	while (*line)
 	{
 		quote = ms_quote_status(*line, quote);
@@ -61,12 +63,17 @@ static char	**ms_split_str(char *line)
 	char	*str;
 	int		len;
 
-	if (!line)
-		return (NULL);
+	if (!line || ms_empty_string(line))
+	{
+		cmds = malloc(sizeof(char *) * 2);
+		cmds[0] = ft_strdup("");
+		cmds[1] = NULL;
+		return (cmds);
+	}
 	len = ms_cmdlen(line);
 	cmds = malloc(sizeof(char *) * (len + 1));
 	if (!cmds)
-		ms_exit("minishell: malloc error", 1);
+		ms_exit(EXIT_FAILURE);
 	tmp = cmds;
 	while (len--)
 	{

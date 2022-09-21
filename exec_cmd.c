@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 17:40:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/20 18:44:12 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 20:53:54 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,13 @@ static void	ms_exec_cmd_pwd(char *cmd, char **str)
 		if (!ent)
 			break ;
 		if (ft_strncmp(ent->d_name, cmd, ft_strlen(cmd)))
+		{
 			if (execve(ms_cmd_join(pwd, cmd), str, NULL))
-				ms_exit(strerror(errno), EXIT_FAILURE);
+			{
+				ms_print_error(NULL, NULL, strerror(errno), 0);
+				ms_exit(EXIT_FAILURE);
+			}
+		}
 	}
 	free(pwd);
 	closedir(dir);
@@ -90,5 +95,6 @@ void	ms_findpath(char *cmd, char **str)
 		iter = iter_end + 1;
 		ms_exec_cmd(buf, cmd, str);
 	}
-	ms_exit("minishell: (cmd): command not found", 127);
+	ms_print_error(NULL, cmd, "command not found", 0);
+	ms_exit(127);
 }

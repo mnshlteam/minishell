@@ -6,13 +6,13 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:10:56 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/19 18:27:08 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/21 21:10:47 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ms_redirect_error(char *line)
+static int	ms_redirect_error(char *line)
 {
 	char	ch;
 	char	cmp;
@@ -26,7 +26,11 @@ static void	ms_redirect_error(char *line)
 	while (*line)
 	{
 		if (*line == cmp)
-			ms_exit("minishell: syntax error near unexpected token", 258);
+		{
+			ms_print_error("syntax error near unexpected token `",
+				line, "\'\n", 1);
+			return (1);
+		}
 		else if (*line == ch)
 			i++;
 		else if (*line != ' ')
@@ -34,7 +38,10 @@ static void	ms_redirect_error(char *line)
 		line++;
 	}
 	if (!line || *line == '>' || *line == '<' || *line == '|' || i > 1)
-		ms_exit("minishell: syntax error near unexpected token", 258);
+	{
+		ms_print_error("syntax error near unexpected token `", line, "\'\n", 1);
+		return (1);
+	}
 }
 
 static void	ms_handle_redirect(t_cmd *cmd, char **line)
@@ -91,11 +98,12 @@ static char	*ms_parse_red_str(t_cmd *cmd, char *line, int quote)
 	return (ft_strdup(line));
 }
 
-void	ms_parse_redirect(t_cmd *cmd)
+int	ms_parse_redirect(t_cmd *cmd)
 {
 	char	*str;
 
 	str = ms_parse_red_str(cmd, cmd->str, 0);
 	free(cmd->str);
 	cmd->str = str;
+	return (0);
 }
