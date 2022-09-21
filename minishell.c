@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/12 18:21:09 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/21 17:37:42 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,18 @@ void	handle_ctrl_bs(pid_t pid)
 	write(1, "  \b\b", 4);
 }
 
+void	handle_proc_quit(pid_t pid)
+{
+	(void)pid;
+	ms_envfree();
+	exit(EXIT_SUCCESS);
+}
+
 void	ms_exit(char *str, int status)
 {
 	ms_envfree();
 	if (str)
 		printf("%s\n", str);
-	printf("exit\n");
 	exit(status);
 }
 
@@ -44,11 +50,16 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 
-	(void)argc;
 	(void)argv;
+	if (argc > 1)
+	{
+		printf("minishell has no arguments\n");
+		return (1);
+	}
 	ms_init(envp);
 	signal(SIGINT, handle_ctrl_c);
 	signal(SIGQUIT, handle_ctrl_bs);
+	signal(SIGTERM, handle_proc_quit);
 	while (1)
 	{
 		line = readline("minishell$ ");
