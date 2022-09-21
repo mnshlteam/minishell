@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:27:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/20 19:11:44 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 15:33:14 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,17 @@ static void	ms_close_pipe(t_cmd *cmd)
 {
 	if (cmd->index % 2)
 	{
-		if (cmd->next)
+		if (cmd->next && g_config.fd[0][FD_WR] > 2)
 			close(g_config.fd[0][FD_WR]);
-		if (cmd->index != 0)
+		if (cmd->index != 0 && g_config.fd[1][FD_RD] > 2)
 			close(g_config.fd[1][FD_RD]);
 	}
 	else
 	{
-		if (cmd->next)
+		if (cmd->next && g_config.fd[1][FD_WR] > 2)
 			close(g_config.fd[1][FD_WR]);
-		close(g_config.fd[0][FD_RD]);
+		if (g_config.fd[0][FD_RD] > 2)
+			close(g_config.fd[0][FD_RD]);
 	}
 }
 
@@ -42,15 +43,15 @@ static void	connect_pipe(t_cmd *cmd, int *in_fd, int *out_fd)
 	if (cmd->index % 2)
 	{
 		if (cmd->next)
-			(*out_fd) = g_config.fd[0][FD_WR];
-		if (cmd->index != 0)
-			(*in_fd) = g_config.fd[1][FD_RD];
+			(*out_fd) = g_config.fd[1][FD_WR];
+		(*in_fd) = g_config.fd[0][FD_RD];
 	}
 	else
 	{
 		if (cmd->next)
-			(*out_fd) = g_config.fd[1][FD_WR];
-		(*in_fd) = g_config.fd[0][FD_RD];
+			(*out_fd) = g_config.fd[0][FD_WR];
+		if (cmd->prev)
+			(*in_fd) = g_config.fd[1][FD_RD];
 	}
 }
 

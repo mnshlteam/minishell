@@ -6,11 +6,17 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 22:01:43 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/20 18:43:43 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/21 14:41:40 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ms_exit_main(void)
+{
+	printf("exit\n");
+	kill(0, SIGTERM);
+}
 
 void	ms_execute(char **strs)
 {
@@ -27,7 +33,7 @@ void	ms_execute(char **strs)
 	else if (!ft_strncmp(*strs, "pwd", 4))
 		ms_pwd();
 	else if (!ft_strncmp(*strs, "exit", 5))
-		ms_exit(NULL, 0);
+		ms_exit_main();
 	else if (ft_strchr(*strs, '/'))
 		ms_exec_file(*(strs), strs);
 	else
