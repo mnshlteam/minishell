@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:45:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 21:47:58 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/22 15:58:29 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ms_input_error(char *line)
 	}
 	if (quote)
 	{
-		write(2, "minishell: found unclosed quotes", 32);
+		write(2, "minishell: found unclosed quotes\n", 33);
 		return (1);
 	}
 	return (0);
@@ -46,7 +46,7 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 	while (ms_isspace(*line))
 		line++;
 	if (*line == '|')
-		write(2, "minishell: syntax error near unexpected token `|\'", 49);
+		write(2, "minishell: syntax error near unexpected token `|\'\n", 50);
 	while (line[i])
 	{
 		quote = ms_quote_status(line[i], quote);

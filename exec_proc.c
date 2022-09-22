@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_proc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:27:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/21 21:41:02 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/22 15:57:36 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	ms_child_proc_act(t_cmd *cmd)
 		dup2(out_fd, STDOUT_FILENO);
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
-	write(1, "asdf", 4);
 	ms_execute(cmd->cmd);
 	exit(EXIT_SUCCESS);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 05:21:00 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/21 20:55:34 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/22 15:56:12 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ms_exec_file(char *filename, char **argv)
 
 	if (stat(filename, &buf))
 	{
-		ms_print_error(NULL, filename, ": No such file or directory", 0);
+		ms_print_error(NULL, filename, ": No such file or directory\n", 0);
 		ms_exit(127);
 	}
 	else if (S_ISDIR(buf.st_mode))
 	{
-		ms_print_error(NULL, filename, ": is a directory", 0);
+		ms_print_error(NULL, filename, ": is a directory\n", 0);
 		ms_exit(126);
 	}
 	else

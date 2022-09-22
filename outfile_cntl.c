@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   outfile_cntl.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:34:52 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/21 20:58:02 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/22 15:56:31 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	fd_err_handle(t_file *file)
 	{
 		if (S_ISDIR(buf.st_mode))
 		{
-			ms_print_error(NULL, file->filename, ": is a directory", 0);
+			ms_print_error(NULL, file->filename, ": is a directory\n", 0);
 			ms_exit(EXIT_FAILURE);
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirect.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:10:56 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 21:10:47 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/22 15:55:24 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	ms_redirect_error(char *line)
 		ms_print_error("syntax error near unexpected token `", line, "\'\n", 1);
 		return (1);
 	}
+	return (0);
 }
 
 static void	ms_handle_redirect(t_cmd *cmd, char **line)

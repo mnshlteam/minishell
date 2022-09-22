@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 17:40:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/21 20:53:54 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/22 16:01:17 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ void	ms_findpath(char *cmd, char **str)
 		iter = iter_end + 1;
 		ms_exec_cmd(buf, cmd, str);
 	}
-	ms_print_error(NULL, cmd, "command not found", 0);
+	ms_print_error(NULL, cmd, ": command not found\n", 0);
 	ms_exit(127);
 }
