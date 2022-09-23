@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 15:53:59 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 21:49:41 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 17:42:29 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ static char	*ms_put_cmd(char **line)
 	return (cmd);
 }
 
+static char	**ms_ret_empty(void)
+{
+	char	**cmds;
+
+	cmds = malloc(sizeof(char *) * 2);
+	cmds[0] = ft_strdup("");
+	cmds[1] = NULL;
+	return (cmds);
+}
+
 static char	**ms_split_str(char *line)
 {
 	char	**cmds;
@@ -64,12 +74,7 @@ static char	**ms_split_str(char *line)
 	int		len;
 
 	if (!line || ms_empty_string(line))
-	{
-		cmds = malloc(sizeof(char *) * 2);
-		cmds[0] = ft_strdup("");
-		cmds[1] = NULL;
-		return (cmds);
-	}
+		return (ms_ret_empty());
 	len = ms_cmdlen(line);
 	cmds = malloc(sizeof(char *) * (len + 1));
 	if (!cmds)
