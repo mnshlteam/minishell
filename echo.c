@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 16:13:08 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 18:13:33 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 21:17:06 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,31 @@
 
 #include "minishell.h"
 
+static int	ms_echo_n(char *str, int *n)
+{
+	int	i;
+
+	*n = 0;
+	if (*str != '-')
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (str[i] == 'n')
+			i++;
+		else
+			return (0);
+	}
+	*n = 1;
+	return (1);
+}
+
 void	ms_echo(char **strs)
 {
 	int	n;
 
-	if (ft_strncmp(*strs, "-n", 3) == 0)
-	{
-		n = 1;
+	if (ms_echo_n(*strs, &n))
 		strs++;
-	}
 	else
 		n = 0;
 	while (*strs)
