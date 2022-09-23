@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:45:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 17:23:39 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 20:19:30 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static int	ms_input_error(char *line)
 {
-	int	i;
 	int	quote;
 
 	quote = 0;
@@ -43,12 +42,10 @@ static int	ms_unexpected_pipe(void)
 	return (1);
 }
 
-static int	ms_divide_line(t_cmd *cmd, char *line)
+static int	ms_divide_line(t_cmd *cmd, char *line, int quote)
 {
-	int		quote;
 	int		i;
 
-	quote = 0;
 	i = 0;
 	while (ms_isspace(*line))
 		line++;
@@ -60,7 +57,8 @@ static int	ms_divide_line(t_cmd *cmd, char *line)
 		if (line[i] == '|' && !quote)
 		{
 			cmd->next = ms_new_cmd(cmd);
-			ms_divide_line(cmd->next, line + i + 1);
+			if (ms_divide_line(cmd->next, line + i + 1, 0))
+				return (1);
 			break ;
 		}
 		i++;
@@ -103,7 +101,7 @@ t_cmd	*ms_parse(char *line)
 	cmd = ms_new_cmd(NULL);
 	if (!cmd)
 		ms_exit(EXIT_FAILURE);
-	if (ms_divide_line(cmd, line))
+	if (ms_divide_line(cmd, line, 0))
 		return (cmd);
 	ms_parse_loop(cmd);
 	return (cmd);

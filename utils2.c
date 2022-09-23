@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/12 01:35:03 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 20:59:41 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 20:26:59 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_cmd	*ms_new_cmd(t_cmd *prev)
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)
 		ms_exit(EXIT_FAILURE);
+	cmd->str = NULL;
 	cmd->cmd = NULL;
 	cmd->infile = NULL;
 	cmd->outfile = NULL;

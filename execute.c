@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 22:01:43 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 17:06:31 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 20:30:21 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ static void	ms_exit_main(char **argv)
 	printf("exit\n");
 	if (!*argv)
 		exit(0);
-	if (*(argv + 1) && *(argv + 2))
-	{
-		write(2, "minishell: exit: too many arguments\n", 36);
-		g_config.exit_status = 1;
-		return ;
-	}
 	if (!ms_strisnum(*argv))
 	{
 		ms_print_error("exit: ", *argv, ": numeric argument required\n", 0);
 		exit(255);
+	}
+	if (*(argv) && *(argv + 1))
+	{
+		write(2, "minishell: exit: too many arguments\n", 36);
+		g_config.exit_status = 1;
+		return ;
 	}
 	exit(ft_atoi(*argv));
 }

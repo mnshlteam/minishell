@@ -6,14 +6,14 @@
 #    By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/25 21:11:25 by hyejo             #+#    #+#              #
-#    Updated: 2022/09/21 20:03:22 by hyejo            ###   ########.fr        #
+#    Updated: 2022/09/23 20:09:07 by hyejo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME		=	minishell
 
-CC			=	gcc# -Wall -Wextra -Werror
+CC			=	gcc -Wall -Wextra -Werror
 LIB_DIR		=	libft
 LIB			=	libft/libft.a
 SRCS		=	minishell.c directory.c echo.c env_ctrl.c env.c env_error.c exec_cmd.c exec_file.c exec_proc.c execute.c infile_cntl.c outfile_cntl.c parse.c parse_dollar.c parse_quotes.c parse_redirect.c split_str.c utils.c utils2.c utils3.c 
