@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:27:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/22 15:57:36 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 15:35:49 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,11 +88,10 @@ static void	ms_child_proc_act(t_cmd *cmd)
 void	ms_execute_proc(t_cmd *cmd)
 {
 	pid_t	c_pid;
+	int		status;
 
 	while (cmd)
 	{
-		if (!cmd->cmd)
-			return ;
 		if (cmd->next)
 			pipe(g_config.fd[cmd->index]);
 		if (ms_run_by_parent(cmd->cmd))
@@ -108,7 +107,8 @@ void	ms_execute_proc(t_cmd *cmd)
 				ms_child_proc_act(cmd);
 			else
 				ms_close_pipe(cmd);
-			waitpid(c_pid, &g_config.exit_status, WUNTRACED);
+			waitpid(c_pid, &status, WUNTRACED);
+			g_config.exit_status = WEXITSTATUS(status);
 		}
 		cmd = cmd->next;
 	}

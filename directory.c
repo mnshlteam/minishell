@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 15:18:30 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/07 17:03:27 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 15:39:08 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 void	ms_cd(char *str)
 {
 	if (chdir(str))
-		printf("Error to change directory.\n");
+	{
+		ms_print_error("cd: ", str, \
+			": No such file or directory", ft_strlen(str));
+		g_config.exit_status = 1;
+	}
 	else
 	{
 		str = getcwd(NULL, 0);

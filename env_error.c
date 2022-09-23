@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_error.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 18:24:45 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 20:46:48 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 15:41:16 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ms_export_error(char *str)
 	if (*str == '=')
 	{
 		ms_print_error("export: `", str, "': not a valid identifier\n", 0);
+		g_config.exit_status = 1;
 		return (1);
 	}
 	i = 0;
@@ -29,6 +30,7 @@ int	ms_export_error(char *str)
 		else if (!ft_isalnum(str[i]) && str[i] != '_')
 		{
 			ms_print_error("export: `", str, "': not a valid identifier\n", 0);
+			g_config.exit_status = 1;
 			return (1);
 		}
 		i++;
@@ -46,6 +48,7 @@ int	ms_unset_error(char *str)
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 		{
 			ms_print_error("unset: `", str, "': not a valid identifier\n", 0);
+			g_config.exit_status = 1;
 			return (1);
 		}
 		i++;
