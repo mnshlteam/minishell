@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:45:40 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 21:49:29 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:11:59 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ms_empty_string(char *str)
 	return (1);
 }
 
-void	ms_print_error(char *s1, char *s2, char *s3, int s2len)
+int	ms_print_error(char *s1, char *s2, char *s3, int s2len)
 {
 	write(2, "minishell: ", 11);
 	if (s1)
@@ -40,6 +40,7 @@ void	ms_print_error(char *s1, char *s2, char *s3, int s2len)
 	}
 	if (s3)
 		write(2, s3, ft_strlen(s3));
+	return (1);
 }
 
 static void	ms_free_filelist(t_file *file)

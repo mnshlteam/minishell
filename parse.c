@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:45:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/22 15:58:29 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:26:41 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	ms_input_error(char *line)
 	return (0);
 }
 
-static void	ms_divide_line(t_cmd *cmd, char *line)
+static int	ms_divide_line(t_cmd *cmd, char *line)
 {
 	int		quote;
 	int		i;
@@ -46,7 +46,11 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 	while (ms_isspace(*line))
 		line++;
 	if (*line == '|')
+	{
 		write(2, "minishell: syntax error near unexpected token `|\'\n", 50);
+		g_config.exit_status = 258;
+		return (1);
+	}
 	while (line[i])
 	{
 		quote = ms_quote_status(line[i], quote);
@@ -63,6 +67,7 @@ static void	ms_divide_line(t_cmd *cmd, char *line)
 	cmd->str = ft_substr(line, 0, i);
 	if (!cmd->str)
 		ms_exit(EXIT_FAILURE);
+	return (0);
 }
 
 t_cmd	*ms_parse(char *line)
@@ -71,17 +76,24 @@ t_cmd	*ms_parse(char *line)
 	t_cmd	*tmp;
 
 	if (ms_input_error(line))
+	{
+		g_config.exit_status = 258;
 		return (NULL);
+	}
 	cmd = ms_new_cmd(NULL);
 	if (!cmd)
 		ms_exit(EXIT_FAILURE);
 	tmp = cmd;
-	ms_divide_line(cmd, line);
+	if (ms_divide_line(cmd, line))
+		return (tmp);
 	while (cmd)
 	{
 		ms_parse_dollar(cmd);
 		if (ms_parse_redirect(cmd))
+		{
+			g_config.exit_status = 258;
 			return (tmp);
+		}
 		ms_split(cmd);
 		cmd = cmd->next;
 	}

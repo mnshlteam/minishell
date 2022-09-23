@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 18:10:56 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/22 15:55:24 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:24:34 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ static int	ms_redirect_error(char *line)
 	while (*line)
 	{
 		if (*line == cmp)
-		{
-			ms_print_error("syntax error near unexpected token `",
-				line, "\'\n", 1);
-			return (1);
-		}
+			return (ms_print_error("syntax error near unexpected token `",
+					line, "\'\n", 1));
 		else if (*line == ch)
 			i++;
 		else if (*line != ' ')
@@ -38,21 +35,21 @@ static int	ms_redirect_error(char *line)
 		line++;
 	}
 	if (!line || *line == '>' || *line == '<' || *line == '|' || i > 1)
-	{
-		ms_print_error("syntax error near unexpected token `", line, "\'\n", 1);
-		return (1);
-	}
+		return (ms_print_error("syntax error near unexpected token `",
+				line, "\'\n", 1));
 	return (0);
 }
 
-static void	ms_handle_redirect(t_cmd *cmd, char **line)
+static void	ms_handle_redirect(t_cmd *cmd, char **line, int *err)
 {
 	char	*str;
 	char	ch;
 	int		i;
 	int		len;
 
-	ms_redirect_error(*line);
+	*err |= ms_redirect_error(*line);
+	if (*err)
+		return ;
 	i = -1;
 	ch = **line;
 	while (**line == ch)
@@ -71,17 +68,17 @@ static void	ms_handle_redirect(t_cmd *cmd, char **line)
 	(*line) += len;
 }
 
-static char	*ms_parse_red_str(t_cmd *cmd, char *line, int quote)
+static char	*ms_parse_red_str(t_cmd *cmd, char *line, int quote, int *err)
 {
 	char	*str;
 	int		i;
 
-	if (!line || !*line)
+	if (!line || !*line || *err)
 		return (NULL);
 	if (*line == '>' || *line == '<')
 	{
-		ms_handle_redirect(cmd, &line);
-		return (ms_parse_red_str(cmd, line, quote));
+		ms_handle_redirect(cmd, &line, err);
+		return (ms_parse_red_str(cmd, line, quote, err));
 	}
 	i = 0;
 	while (line[i])
@@ -91,8 +88,9 @@ static char	*ms_parse_red_str(t_cmd *cmd, char *line, int quote)
 		{
 			str = ft_substr(line, 0, i);
 			line += i;
-			ms_handle_redirect(cmd, &line);
-			return (ms_strjoin_free(str, ms_parse_red_str(cmd, line, quote)));
+			ms_handle_redirect(cmd, &line, err);
+			return (ms_strjoin_free(
+					str, ms_parse_red_str(cmd, line, quote, err)));
 		}
 		i++;
 	}
@@ -102,9 +100,11 @@ static char	*ms_parse_red_str(t_cmd *cmd, char *line, int quote)
 int	ms_parse_redirect(t_cmd *cmd)
 {
 	char	*str;
+	int		err;
 
-	str = ms_parse_red_str(cmd, cmd->str, 0);
+	err = 0;
+	str = ms_parse_red_str(cmd, cmd->str, 0, &err);
 	free(cmd->str);
 	cmd->str = str;
-	return (0);
+	return (err);
 }

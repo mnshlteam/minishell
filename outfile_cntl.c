@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:34:52 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/22 15:56:31 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:08:04 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	fd_err_handle(t_file *file)
 
 	if (stat(file->filename, &buf))
 	{
-		ms_print_error(NULL, NULL, strerror(errno), 0);
+		ms_print_error(NULL, strerror(errno), "\n", 0);
 		ms_exit(EXIT_FAILURE);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 05:21:00 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/22 15:56:12 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:07:22 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ms_exec_file(char *filename, char **argv)
 	{
 		if (execve(filename, argv, g_config.envp))
 		{
-			ms_print_error(NULL, NULL, strerror(errno), 0);
+			ms_print_error(NULL, strerror(errno), "\n", 0);
 			ms_exit(EXIT_FAILURE);
 		}
 	}

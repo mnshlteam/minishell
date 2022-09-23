@@ -6,7 +6,7 @@
 /*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/11 17:40:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/23 15:18:10 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:07:55 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	ms_exec_cmd_pwd(char *cmd, char **str)
 		{
 			if (execve(ms_cmd_join(pwd, cmd), str, NULL))
 			{
-				ms_print_error(NULL, NULL, strerror(errno), 0);
+				ms_print_error(NULL, strerror(errno), "\n", 0);
 				ms_exit(EXIT_FAILURE);
 			}
 		}

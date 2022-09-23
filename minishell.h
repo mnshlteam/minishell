@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/21 21:49:56 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:12:24 by yolee            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
 
 int		ms_empty_string(char *str);
-void	ms_print_error(char *s1, char *s2, char *s3, int s2len);
+int		ms_print_error(char *s1, char *s2, char *s3, int s2len);
 void	ms_free_cmd(t_cmd *cmd);
 
 void	ms_split(t_cmd *cmd);
