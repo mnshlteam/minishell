@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_proc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 19:27:41 by yolee             #+#    #+#             */
-/*   Updated: 2022/09/23 15:35:49 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 17:12:10 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	ms_execute_proc(t_cmd *cmd)
 		{
 			if (g_config.fd[cmd->index][FD_WR] > 2)
 				safe_close(&g_config.fd[cmd->index][FD_WR]);
-			ms_run_parent(cmd->cmd);
+			ms_run_parent(cmd, cmd->cmd);
 		}
 		else
 		{
@@ -108,7 +108,7 @@ void	ms_execute_proc(t_cmd *cmd)
 			else
 				ms_close_pipe(cmd);
 			waitpid(c_pid, &status, WUNTRACED);
-			g_config.exit_status = WEXITSTATUS(status);
+			g_config.exit_status = (status >> 8) & 0x000000ff;
 		}
 		cmd = cmd->next;
 	}

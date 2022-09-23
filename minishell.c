@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:26:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 15:19:44 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 16:36:38 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*line)
 			add_history(line);
-		ms_free_cmd(ms_parse(line));
+		if (!ms_empty_string(line))
+			ms_free_cmd(ms_parse(line));
 		free(line);
 	}
 	ms_exit(EXIT_SUCCESS);

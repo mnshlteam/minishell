@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/25 19:25:48 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 16:12:24 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 17:23:39 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	ms_add_last_file(t_cmd *cmd, char *fillename, int mode, int io);
 t_cmd	*ms_new_cmd(t_cmd *prev);
 int		ms_quote_status(char ch, int quote);
 
+t_cmd	*ms_nextifcan(t_cmd *cmd);
 int		ms_empty_string(char *str);
 int		ms_print_error(char *s1, char *s2, char *s3, int s2len);
 void	ms_free_cmd(t_cmd *cmd);
@@ -125,7 +126,7 @@ void	ms_exec_file(char *filename, char **argv);
 void	ms_execute_proc(t_cmd *cmd);
 
 int		ms_run_by_parent(char **strs);
-void	ms_run_parent(char **strs);
+void	ms_run_parent(t_cmd *cmd, char **strs);
 
 int		ms_open_infile(t_file *file);
 int		ms_open_outfile(t_file *file);

@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:45:40 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 16:11:59 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 17:23:39 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_cmd	*ms_nextifcan(t_cmd *cmd)
+{
+	if (cmd->next)
+		return (cmd->next);
+	else
+		return (cmd);
+}
 
 int	ms_empty_string(char *str)
 {

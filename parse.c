@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 17:45:38 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 16:26:41 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 17:23:39 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ static int	ms_input_error(char *line)
 	return (0);
 }
 
+static int	ms_unexpected_pipe(void)
+{
+	write(2, "minishell: syntax error near unexpected token `|\'\n", 50);
+	g_config.exit_status = 258;
+	return (1);
+}
+
 static int	ms_divide_line(t_cmd *cmd, char *line)
 {
 	int		quote;
@@ -46,11 +53,7 @@ static int	ms_divide_line(t_cmd *cmd, char *line)
 	while (ms_isspace(*line))
 		line++;
 	if (*line == '|')
-	{
-		write(2, "minishell: syntax error near unexpected token `|\'\n", 50);
-		g_config.exit_status = 258;
-		return (1);
-	}
+		return (ms_unexpected_pipe());
 	while (line[i])
 	{
 		quote = ms_quote_status(line[i], quote);
@@ -61,8 +64,7 @@ static int	ms_divide_line(t_cmd *cmd, char *line)
 			break ;
 		}
 		i++;
-		if (cmd->next)
-			cmd = cmd->next;
+		cmd = ms_nextifcan(cmd);
 	}
 	cmd->str = ft_substr(line, 0, i);
 	if (!cmd->str)
@@ -70,10 +72,28 @@ static int	ms_divide_line(t_cmd *cmd, char *line)
 	return (0);
 }
 
+static void	ms_parse_loop(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	tmp = cmd;
+	while (cmd)
+	{
+		ms_parse_dollar(cmd);
+		if (ms_parse_redirect(cmd))
+		{
+			g_config.exit_status = 258;
+			return ;
+		}
+		ms_split(cmd);
+		cmd = cmd->next;
+	}
+	ms_execute_proc(tmp);
+}
+
 t_cmd	*ms_parse(char *line)
 {
 	t_cmd	*cmd;
-	t_cmd	*tmp;
 
 	if (ms_input_error(line))
 	{
@@ -83,20 +103,8 @@ t_cmd	*ms_parse(char *line)
 	cmd = ms_new_cmd(NULL);
 	if (!cmd)
 		ms_exit(EXIT_FAILURE);
-	tmp = cmd;
 	if (ms_divide_line(cmd, line))
-		return (tmp);
-	while (cmd)
-	{
-		ms_parse_dollar(cmd);
-		if (ms_parse_redirect(cmd))
-		{
-			g_config.exit_status = 258;
-			return (tmp);
-		}
-		ms_split(cmd);
-		cmd = cmd->next;
-	}
-	ms_execute_proc(tmp);
-	return (tmp);
+		return (cmd);
+	ms_parse_loop(cmd);
+	return (cmd);
 }

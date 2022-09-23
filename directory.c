@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   directory.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yolee <yolee@student.42seoul.kr>           +#+  +:+       +#+        */
+/*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 15:18:30 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 15:58:59 by yolee            ###   ########.fr       */
+/*   Updated: 2022/09/23 17:34:05 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,17 @@ void	ms_cd(char *str)
 
 	if (chdir(str))
 	{
-		stat(str, &buf);
-		if (!S_ISDIR(buf.st_mode))
-		{
-			ms_print_error("cd: ", str, ": Not a directory\n", 0);
-			ms_exit(EXIT_FAILURE);
-		}
-		else
+		if (stat(str, &buf))
 		{
 			ms_print_error("cd: ", str, \
 				": No such file or directory\n", 0);
+			return ;
+		}
+		if (!S_ISDIR(buf.st_mode))
+		{
+			ms_print_error("cd: ", str, ": Not a directory\n", 0);
+			g_config.exit_status = 1;
+			return ;
 		}
 		g_config.exit_status = 1;
 	}
