@@ -6,7 +6,7 @@
 #    By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/06/25 21:11:25 by hyejo             #+#    #+#              #
-#    Updated: 2022/09/23 20:09:07 by hyejo            ###   ########.fr        #
+#    Updated: 2022/09/24 20:10:47 by hyejo            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,6 @@ LIB			=	libft/libft.a
 SRCS		=	minishell.c directory.c echo.c env_ctrl.c env.c env_error.c exec_cmd.c exec_file.c exec_proc.c execute.c infile_cntl.c outfile_cntl.c parse.c parse_dollar.c parse_quotes.c parse_redirect.c split_str.c utils.c utils2.c utils3.c 
 OBJS		=	$(SRCS:.c=.o)
 LIBFT		=	-Llibft -lft
-# RL			=	-lreadline -L/opt/homebrew/opt/readline/lib
-# RL_INC		=	-I/opt/homebrew/opt/readline/include
 RL			=	-lreadline -L/Users/$(USER)/.brew/Cellar/readline/8.1.2/lib
 RL_INC		=	-I/Users/$(USER)/.brew/Cellar/readline/8.1.2/include
 
