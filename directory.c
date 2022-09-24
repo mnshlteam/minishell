@@ -6,7 +6,7 @@
 /*   By: hyejo <hyejo@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 15:18:30 by hyejo             #+#    #+#             */
-/*   Updated: 2022/09/23 17:34:05 by hyejo            ###   ########.fr       */
+/*   Updated: 2022/09/24 20:00:27 by hyejo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ms_cd(char *str)
 	else
 	{
 		str = getcwd(NULL, 0);
+		ms_addenv(ft_strjoin("OLDPWD=", ms_getenv("PWD=")));
 		ms_addenv(ft_strjoin("PWD=", str));
 		free(str);
 	}
